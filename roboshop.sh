@@ -11,13 +11,13 @@ do
         --instance-type t3.micro \
         --security-group-ids $SG_ID \
         --region $REGION \
-        --tag-specifications "ResourceType=instance,Tags=[{Key=test,Value=$instance}]" \
+        --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" \
         --count 1 \
         --query 'Instances[0].InstanceId' \
         --output text)
     
     #Get public  and Private IPs
-    If [ $instance != "frontend" ]; then
+    if [ $instance != "frontend" ]; then
         echo "Waiting for 2 mins for instance to be in running state"
         sleep 10
         Private_IP=$(aws ec2 describe-instances \
