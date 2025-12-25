@@ -2,7 +2,7 @@
 
 source ./common.sh
 
-check_root
+check_root_user
 
 cp mongo.repo /etc/yum.repos.d/mongo.repo
 VALIDATE $? "Adding Mongo repo"

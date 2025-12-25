@@ -11,9 +11,9 @@ BLUE="\e[34m"
 N="\e[0m"
 
 #Creating log file
-LOGS_FILE="/var/log/shell-roboshop"
+LOG_FILE="/var/log/shell-roboshop"
 SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
-LOGS_FILE="${LOGS_FILE}/${SCRIPT_NAME}.log"
+LOG_FILE="${LOG_FILE}/${SCRIPT_NAME}.log"
 SCRIPT_DIR=$(pwd)
 START_TIME=$(date +%s)
 MONGODB_HOST=mongodb.phemanth.in
@@ -21,8 +21,8 @@ REDIS_HOST=redis.phemanth.in
 MYSQL_HOST=mysql.phemanth.in
 RABBITMQ_HOST=rabbitmq.phemanth.in
 
-mkdir -p $LOGS_FILE
-echo "Script Execution Started at : $(date)"  &>>${LOGS_FILE} | tee -a $LOGS_FILE
+mkdir -p $LOG_FILE
+echo "Script Execution Started at : $(date)"  &>>${LOG_FILE} | tee -a $LOG_FILE
 
 #Check root user
 check_root_user() {
@@ -33,10 +33,10 @@ check_root_user() {
 }
 
 
-#Check Validation
-Validation() {
+#Check VALIDATE
+VALIDATE() {
   if [ $1 -ne 0 ] ; then
-    echo -e "${RED}Installation Failed. Check the log file for more details: ${LOGS_FILE}${N}"
+    echo -e "${RED}Installation Failed. Check the log file for more details: ${LOG_FILE}${N}"
     exit 1
   else
     echo -e "${GREEN}Installation is Successful${N}"
@@ -45,13 +45,13 @@ Validation() {
 
 # #Print Headings
 # Print_Headings() {
-#   echo -e "\n****************** $1 ******************" &>>${LOGS_FILE}
+#   echo -e "\n****************** $1 ******************" &>>${LOG_FILE}
 #   echo -e "${BLUE}****************** $1 ******************${N}"
 # }
 
 # #Print Status
 # Print_Status() {
-#   echo -e "\n****************** $1 ******************" &>>${LOGS_FILE}
+#   echo -e "\n****************** $1 ******************" &>>${LOG_FILE}
 #   echo -e "${YELLOW}****************** $1 ******************${N}"
 # }
 
