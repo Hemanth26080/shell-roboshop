@@ -1,59 +1,38 @@
 #!/bin/bash
 
-USER_ID=$(id -u)
-GROUP_ID=$(id -g)
-
-#Color codes
-RED="\e[31m"
-GREEN="\e[32m"
-YELLOW="\e[33m"
-BLUE="\e[34m"
+USERID=$(id -u)
+R="\e[31m"
+G="\e[32m"
+Y="\e[33m"
 N="\e[0m"
 
-#Creating log file
-LOG_FOLDER="/var/log/shell-roboshop"
+LOGS_FOLDER="/var/log/shell-roboshop"
 SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
-LOG_FILE="${LOG_FOLDER}/${SCRIPT_NAME}.log"
-SCRIPT_DIR=$(pwd)
+LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log" # /var/log/shell-script/16-logs.log
 START_TIME=$(date +%s)
+SCRIPT_DIR=$PWD # for absoulute path
 MONGODB_HOST=mongodb.phemanth.in
-REDIS_HOST=redis.phemanth.in
 MYSQL_HOST=mysql.phemanth.in
-RABBITMQ_HOST=rabbitmq.phemanth.in
 
-mkdir -p $LOG_FOLDER
-echo "Script Execution Started at : $(date)"  &>>${LOG_FILE} | tee -a $LOG_FILE
+mkdir -p $LOGS_FOLDER
+echo "Script started executed at: $(date)" | tee -a $LOG_FILE
 
-#Check root user
-check_root_user() {
-  if [ $USER_ID -ne 0 ] ; then
-    echo -e "${RED}You should run this script as root user or with sudo privileges${N}"
-    exit 1
-  fi
+check_root(){
+    if [ $USERID -ne 0 ]; then
+        echo "ERROR:: Please run this script with root privelege"
+        exit 1 # failure is other than 0
+    fi
 }
 
 
-#Check VALIDATE
-VALIDATE() {
-  if [ $1 -ne 0 ] ; then
-    echo -e "${RED}Installation Failed. Check the log file for more details: ${LOG_FILE}${N}"
-    exit 1
-  else
-    echo -e "${GREEN}Installation is Successful${N}"
-  fi
+VALIDATE(){ # functions receive inputs through args just like shell script args
+    if [ $1 -ne 0 ]; then
+        echo -e "$2 ... $R FAILURE $N" | tee -a $LOG_FILE
+        exit 1
+    else
+        echo -e "$2 ... $G SUCCESS $N" | tee -a $LOG_FILE
+    fi
 }
-
-# #Print Headings
-# Print_Headings() {
-#   echo -e "\n****************** $1 ******************" &>>${LOG_FILE}
-#   echo -e "${BLUE}****************** $1 ******************${N}"
-# }
-
-# #Print Status
-# Print_Status() {
-#   echo -e "\n****************** $1 ******************" &>>${LOG_FILE}
-#   echo -e "${YELLOW}****************** $1 ******************${N}"
-# }
 
 nodejs_setup(){
     dnf module disable nodejs -y &>>$LOG_FILE
