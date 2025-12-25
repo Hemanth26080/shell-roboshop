@@ -21,7 +21,7 @@ REDIS_HOST=redis.phemanth.in
 MYSQL_HOST=mysql.phemanth.in
 RABBITMQ_HOST=rabbitmq.phemanth.in
 
-mkdir -p $LOG_FILE
+mkdir -p $LOG_FOLDER
 echo "Script Execution Started at : $(date)"  &>>${LOG_FILE} | tee -a $LOG_FILE
 
 #Check root user
