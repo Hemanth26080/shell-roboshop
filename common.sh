@@ -11,9 +11,9 @@ BLUE="\e[34m"
 N="\e[0m"
 
 #Creating log file
-LOG_FILE="/var/log/shell-roboshop"
+LOG_FOLDER="/var/log/shell-roboshop"
 SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
-LOG_FILE="${LOG_FILE}/${SCRIPT_NAME}.log"
+LOG_FILE="${LOG_FOLDER}/${SCRIPT_NAME}.log"
 SCRIPT_DIR=$(pwd)
 START_TIME=$(date +%s)
 MONGODB_HOST=mongodb.phemanth.in
