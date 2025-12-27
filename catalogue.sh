@@ -15,7 +15,7 @@ VALIDATE $? "Copying Mongodb Repo file"
 dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "Installing Mongodb Client"
 
-INDEX=$(mongosh --host mongodb.phemanth.in --port 27017 -u roboshop -p 'Roboshop@1' --authenticationDatabase admin --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')")
+INDEX=$(mongosh mongodb.phemanth.in --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')")
 if [ $INDEX -le 0 ]; then
     mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$LOG_FILE
     VALIDATE $? "Load $app_name products"
